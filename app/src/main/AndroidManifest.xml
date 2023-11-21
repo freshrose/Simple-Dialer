@@ -8,6 +8,13 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.CALL_PRIVILEGED" />
+    <uses-permission
+        android:name="android.permission.READ_PROVIDER"
+        android:protectionLevel="signature" />
+    <uses-permission
+        android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
+    <uses-permission android:name="MyAndroidContentProvider._READ_PERMISSION" />
     <uses-permission android:name="android.permission.READ_CALL_LOG" />
     <uses-permission android:name="android.permission.WRITE_CALL_LOG" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -33,6 +40,8 @@
     <queries>
         <package android:name="com.simplemobiletools.contacts.pro.debug" />
         <package android:name="com.simplemobiletools.contacts.pro" />
+        <package android:name="cz.freshflow.app.ff" />
+        <package android:name="com.simplemobiletools.dialer.debug" />
     </queries>
 
     <application
@@ -464,5 +473,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity-alias>
+
+        <provider
+            android:name=".fragments.provider.RecentCallsContentProvider"
+            android:authorities="com.simplemobiletools.dialer.debug.recentcallscontentprovider"
+            android:enabled="true"
+            android:exported="true"
+            android:grantUriPermissions="true"
+            android:label="RecentCallsContentProvider"
+            android:multiprocess="true"
+            android:permission="android.permission.READ_CONTACTS">
+            <meta-data
+                android:name="android.content.ContactDirectory"
+                android:value="true" />
+        </provider>
     </application>
 </manifest>

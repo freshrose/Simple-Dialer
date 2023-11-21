@@ -17,6 +17,7 @@ import com.simplemobiletools.dialer.databinding.FragmentRecentsBinding
 import com.simplemobiletools.dialer.extensions.config
 import com.simplemobiletools.dialer.helpers.MIN_RECENTS_THRESHOLD
 import com.simplemobiletools.dialer.helpers.RecentsHelper
+import com.simplemobiletools.dialer.helpers.SharedPreferencesHelper
 import com.simplemobiletools.dialer.interfaces.RefreshItemsListener
 import com.simplemobiletools.dialer.models.RecentCall
 
@@ -71,6 +72,7 @@ class RecentsFragment(context: Context, attributeSet: AttributeSet) : MyViewPage
                     .hidePrivateContacts(privateContacts, SMT_PRIVATE in context.baseConfig.ignoredContactSources)
 
                 activity?.runOnUiThread {
+                    SharedPreferencesHelper.saveRecentCalls(context,allRecentCalls.toMutableList() as ArrayList)
                     gotRecents(allRecentCalls)
                 }
             }
