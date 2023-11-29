@@ -11,7 +11,7 @@ import com.simplemobiletools.commons.extensions.normalizePhoneNumber
 data class RecentCall(
     val id: Int,
     val phoneNumber: String,
-    val name: String,
+    var name: String,
     val photoUri: String,
     val startTS: Int,
     val duration: Int,

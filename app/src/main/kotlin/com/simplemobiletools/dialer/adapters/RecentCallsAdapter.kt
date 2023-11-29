@@ -1,10 +1,12 @@
 package com.simplemobiletools.dialer.adapters
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.provider.CallLog.Calls
 import android.text.SpannableString
 import android.text.TextUtils
+import android.util.Log
 import android.util.TypedValue
 import android.view.*
 import android.widget.PopupMenu
@@ -23,6 +25,7 @@ import com.simplemobiletools.dialer.databinding.ItemRecentCallBinding
 import com.simplemobiletools.dialer.dialogs.ShowGroupedCallsDialog
 import com.simplemobiletools.dialer.extensions.*
 import com.simplemobiletools.dialer.helpers.RecentsHelper
+import com.simplemobiletools.dialer.helpers.SharedPreferencesHelper
 import com.simplemobiletools.dialer.interfaces.RefreshItemsListener
 import com.simplemobiletools.dialer.models.RecentCall
 
@@ -115,7 +118,7 @@ class RecentCallsAdapter(
             allowLongClick = refreshItemsListener != null && !recentCall.isUnknownNumber
         ) { itemView, _ ->
             val binding = ItemRecentCallBinding.bind(itemView)
-            setupView(binding, recentCall)
+            setupView(binding, recentCall,activity)
         }
         bindViewHolder(holder)
     }
@@ -282,15 +285,21 @@ class RecentCallsAdapter(
 
     private fun getSelectedPhoneNumber() = getSelectedItems().firstOrNull()?.phoneNumber
 
-    private fun setupView(binding: ItemRecentCallBinding, call: RecentCall) {
+    private fun setupView(binding: ItemRecentCallBinding, call: RecentCall,context: Context) {
         binding.apply {
             val currentFontSize = fontSize
             itemRecentsHolder.isSelected = selectedKeys.contains(call.id)
+            val newContacts = SharedPreferencesHelper.getNewContacts(context)
+            /*newContacts.forEach{newContacts->
+                if(newContacts.number == call.phoneNumber){
+                    Log.e("hash-new","new number ${newContacts.name}")
+                    call.name = newContacts.name
+                }
+            }*/
             val name = findContactByCall(call)?.getNameToDisplay() ?: call.name
             var nameToShow = SpannableString(name)
             if (call.specificType.isNotEmpty()) {
                 nameToShow = SpannableString("${name} - ${call.specificType}")
-
                 // show specific number at "Show call details" dialog too
                 if (refreshItemsListener == null) {
                     nameToShow = SpannableString("${name} - ${call.specificType}, ${call.specificNumber}")

@@ -173,6 +173,16 @@ fun getCallContact(context: Context, call: Call?, callback: (CallContact) -> Uni
                                 Log.e("hash-cursor-1", "display_name -> ${cursor.getString(idIndex)}")
                                 callContact.name = cursor.getString(idIndex)
                                 addContact(callContact.name, number, context)
+                               /* val newContacts = SharedPreferencesHelper.getNewContacts(context)
+                                Log.e("hash-newContact","$newContacts")
+                                newContacts.firstOrNull { it.number == number }
+                                    ?.let {
+                                        // Contact with the number already exists, handle if needed
+                                    } ?: run {
+                                    // Contact does not exist, so add it
+                                    newContacts.add(SharedPreferencesHelper.NewContact(callContact.name, number))
+                                    SharedPreferencesHelper.saveNewContacts(context, newContacts)
+                                }*/
                             }
                             Log.e("hash-cursor-1", "cursor -> true")
                         } else {

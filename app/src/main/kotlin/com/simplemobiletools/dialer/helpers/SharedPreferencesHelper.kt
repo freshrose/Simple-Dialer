@@ -11,6 +11,7 @@ object SharedPreferencesHelper {
 
     private const val PREFERENCES_NAME = "MyAppPreferences"
     private const val KEY_RECENT_CALLS = "recent_calls"
+    private const val KEY_NEW_CONTACTS = "new_contacts"
 
     private fun getSharedPreferences(context: Context): SharedPreferences {
         return context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
@@ -28,6 +29,22 @@ object SharedPreferencesHelper {
         val gson = Gson()
         val json = getSharedPreferences(context).getString(KEY_RECENT_CALLS, "")
         val type = object : TypeToken<ArrayList<RecentCall>>() {}.type
+        return gson.fromJson(json, type) ?: ArrayList()
+    }
+
+    data class NewContact(var name:String,val number:String)
+    fun saveNewContacts(context: Context, newContacts: ArrayList<NewContact>){
+            val editor = getSharedPreferences(context).edit()
+            val gson = Gson()
+            val json = gson.toJson(newContacts)
+            editor.putString(KEY_NEW_CONTACTS, json)
+            editor.apply()
+    }
+
+    fun getNewContacts(context: Context): ArrayList<NewContact> {
+        val gson = Gson()
+        val json = getSharedPreferences(context).getString(KEY_NEW_CONTACTS, "")
+        val type = object : TypeToken<ArrayList<NewContact>>() {}.type
         return gson.fromJson(json, type) ?: ArrayList()
     }
 }

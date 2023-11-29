@@ -114,9 +114,9 @@ class SettingsActivity : SimpleActivity() {
     }
 
     private fun setupCustomizeColors() {
-        binding.settingsColorCustomizationLabel.text = getCustomizeColorsString()
+        binding.settingsColorCustomizationLabel.text = getString(R.string.customize_colors)
         binding.settingsColorCustomizationHolder.setOnClickListener {
-            handleCustomizeColorsClick()
+            startCustomizationActivity()
         }
     }
 
@@ -146,16 +146,19 @@ class SettingsActivity : SimpleActivity() {
     @TargetApi(Build.VERSION_CODES.N)
     private fun setupManageBlockedNumbers() {
         binding.apply {
-            settingsManageBlockedNumbersLabel.text = addLockedLabelIfNeeded(R.string.manage_blocked_numbers)
+            settingsManageBlockedNumbersLabel.text = getString(R.string.manage_blocked_numbers)
             settingsManageBlockedNumbersHolder.beVisibleIf(isNougatPlus())
             settingsManageBlockedNumbersHolder.setOnClickListener {
-                if (isOrWasThankYouInstalled()) {
+                Intent(this@SettingsActivity, ManageBlockedNumbersActivity::class.java).apply {
+                    startActivity(this)
+                }
+               /* if (isOrWasThankYouInstalled()) {
                     Intent(this@SettingsActivity, ManageBlockedNumbersActivity::class.java).apply {
                         startActivity(this)
                     }
                 } else {
                     FeatureLockedDialog(this@SettingsActivity) { }
-                }
+                }*/
             }
         }
     }
